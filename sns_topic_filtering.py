@@ -74,7 +74,7 @@ requirements: [ "boto" ]
 EXAMPLES = """
 
 - name: Create alarm SNS topic
-  sns_topic:
+  sns_topic_filtering:
     name: "alarms"
     state: present
     display_name: "alarm SNS topic"
