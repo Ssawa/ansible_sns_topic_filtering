@@ -1,4 +1,4 @@
-# ansible_sns_topic_filtering
+# Ansible SNS Topic Filtering
 An addition to ansible's sns_topic module to allow setting a FilterPolicy
 
 Note that currently because of limitations with AWS it is not possible to entirely _delete_ a FilterPolicy (only replace it). In order to simulate this kind of functionality a subscription must be deleted and recreated, which this module currently does **not** do to avoid potentially deleting configured data.
