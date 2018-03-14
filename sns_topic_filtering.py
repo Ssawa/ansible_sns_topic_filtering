@@ -74,7 +74,7 @@ requirements: [ "boto" ]
 EXAMPLES = """
 
 - name: Create alarm SNS topic
-  sns_topic_filtering:
+  sns_topic:
     name: "alarms"
     state: present
     display_name: "alarm SNS topic"
@@ -191,12 +191,13 @@ class SnsTopicManager(object):
         while True:
             try:
                 response = self.connection.list_topics(NextToken=next_token)
-                topics.extend(response['Topics'])
-                next_token = response.get('NextToken', '')
-                if not next_token:
-                    break
             except ClientError as err:
                 self.module.fail_json(msg=err.message)
+            topics.extend(response['Topics'])
+            next_token = response.get('NextToken', '')
+            if not next_token:
+                break
+
         return [t['TopicArn'] for t in topics]
 
 
@@ -280,7 +281,6 @@ class SnsTopicManager(object):
                     if not self.check_mode:
                         self.connection.unsubscribe(sub['SubscriptionArn'])
 
-        # import pdb; pdb.set_trace()
         for key, sub in desired_subscriptions.items():
             filter_policy = sub.get('filterPolicy', None)
             if filter_policy:
